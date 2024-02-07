@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:world_time/services/world_time.dart';
 
 class Loading extends StatefulWidget {
@@ -10,8 +11,9 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   void setupWorldTime() async {
-    WorldTime instance = WorldTime(
-        location: 'Berlin', flag: 'germany.png', url: 'Europe/Berlin');
+    //default state, could add location specific functionality
+    WorldTime instance =
+        WorldTime(location: 'London', flag: 'UK.png', url: 'Europe/London');
     await instance.getTime();
 
     //this opens the home screen and creates instances of required data
@@ -19,6 +21,7 @@ class _LoadingState extends State<Loading> {
       'location': instance.location,
       'flag': instance.flag,
       'time': instance.time,
+      'isDaytime': instance.isDaytime,
     });
   }
 
@@ -31,10 +34,13 @@ class _LoadingState extends State<Loading> {
   //this is where a visual indication of loading occurs to user
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(50.0),
-        child: Text('loading'),
+    return const Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: SpinKitFadingCube(
+          color: Colors.white,
+          size: 50.0,
+        ),
       ),
     );
   }
